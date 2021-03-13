@@ -198,7 +198,7 @@ void MyIP_InterruptHandler(void *CallbackRef)
 		}
 		else
 		{
-			xil_printf("Calculs completes\n\r");
+			xil_printf("CALCULS COMPLETES\n\r");
 			axe = 1;
 		}
 	}
@@ -302,7 +302,7 @@ void machine1(){
 		case 1:
 		{
 	    	charToInt(context.buffer, sizeof(context.buffer)/4, bufferEntiers);
-	    	//accelXYZ(bufferEntiers, &acceleration);
+	    	accelXYZ(bufferEntiers, &acceleration, sizeof(bufferEntiers)/4);
 	    	startWriting = 1;
 			etatM1 = 2;
 			break;
@@ -310,7 +310,7 @@ void machine1(){
 		case 2:
 		{
 			if(calculsFinis==1){
-				sendPacket(bufferChar, sizeof(bufferChar), context.buffer);
+				//sendPacket(bufferChar, sizeof(bufferChar), context.buffer);
 				packetReady = 1;
 				calculsFinis = 0;
 				etatM1=0;
@@ -342,13 +342,13 @@ void machine2(void){
 		}
 		case 1:
 		{
-			writeMyipReg(&acceleration, sizeof(bufferEntiers)/3);
+			//writeMyipReg(&acceleration, sizeof(bufferEntiers)/4);
 			etatM2 = 2;
 			break;
 		}
 		case 2:
 		{
-			intToChar(moyenne, sizeof(moyenne)/4, bufferChar);
+			//intToChar(moyenne, sizeof(moyenne)/4, bufferChar);
 			calculsFinis = 1;
 			etatM2 = 0;
 			break;
@@ -380,6 +380,7 @@ int_t main(void)
 
 	   blinkTask();
 	   uartTask();
+	   simTableauChar(fakePacket, sizeof(bufferEntiers));
 	   //machine1();
 	   //machine2();
 
@@ -389,20 +390,13 @@ int_t main(void)
 
 	   if(ReceivedCount){	//Changer le triggered RecievedCount par RecievedPAQUET
 		   XUartLite_Send(&UartLite, /*RecvBuffer*/"" , ReceivedCount);
+		   newPacket = 1;
+		   //print("newPacket = 1");
+
 		   simTableauChar(fakePacket, sizeof(bufferEntiers));
-		   //simTableauChar(context.buffer, 480);
 		   charToInt(fakePacket, sizeof(bufferEntiers)/4, bufferEntiers);
 		   accelXYZ(bufferEntiers, &acceleration, sizeof(bufferEntiers)/4);
-		   //xil_printf("i : %d\n\r", sizeof(acceleration.X));
 		   writeMyipReg(&acceleration, sizeof(bufferEntiers)/4);
-
-		   //affichage(bufferEntiers, sizeof(bufferEntiers)/4);
-
-		   for(int i=0; i<480; i++){
-			   //xil_printf("context.buffer[%d] = %X\n\r", i, context.buffer[i]);
-		   }
-		   //affichageXYZ(&acceleration, 40);
-		   //writeMyipReg(&acceleration);
 
 		   ReceivedCount = 0;
 	   }

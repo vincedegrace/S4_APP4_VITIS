@@ -74,21 +74,21 @@ void createPacket(u32 *moyenne, u32 *somme, u32 *valeur, int Index, int axe){
 					valeur[Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_0, MYIP_REG_0);
 					somme[Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_0, MYIP_REG_2);
 					moyenne[Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_0, MYIP_REG_1); //<---------------------------
-					xil_printf("Nouvelle\n\rvaleurX = %X\n\rSommeX = %X\n\rMoyenneX = %X\n\r\n\r",  valeur[Index], somme[Index], moyenne[Index]);
+					xil_printf("ValeurX = %X\tSommeX = %X\tMoyenneX = %X\n\r",  valeur[Index], somme[Index], moyenne[Index]);
 					//xil_printf("valeurX[%d] = %X\t\taxe = %d\n\r", Index, valeur[Index], axe);
 					break;
 				case 2:
 					valeur[40+Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_1, MYIP_REG_0);
 					somme[40+Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_1, MYIP_REG_2);
 					moyenne[40+Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_1, MYIP_REG_1);
-					xil_printf("Nouvelle\n\rvaleurY = %X\n\rSommeY = %X\n\rMoyenneY = %X\n\r\n\r",  valeur[40+Index], somme[40+Index], moyenne[40+Index]);
+					xil_printf("ValeurY = %X\tSommeY = %X\tMoyenneY = %X\n\r",  valeur[40+Index], somme[40+Index], moyenne[40+Index]);
 					//xil_printf("valeurY[%d] = %X\t\taxe = %d\n\r", Index, valeur[40+Index], axe);
 					break;
 				case 3:
 					valeur[80+Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_2, MYIP_REG_0);
 					somme[80+Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_2, MYIP_REG_2);
 					moyenne[80+Index] =  MYIP_S4E_4REG_mReadReg(MY_IP_BASE_ADDRESS_2, MYIP_REG_1);
-					xil_printf("Nouvelle\n\rvaleurZ = %X\n\rSommeZ = %X\n\rMoyenneZ = %X\n\r\n\r",  valeur[80+Index], somme[80+Index], moyenne[80+Index]);
+					xil_printf("ValeurZ = %X\tSommeZ = %X\tMoyenneZ = %X\n\r",  valeur[80+Index], somme[80+Index], moyenne[80+Index]);
 					//xil_printf("valeurZ[%d] = %X\t\taxe = %d\n\r", Index, valeur[80+Index], axe);
 					break;
 				default:

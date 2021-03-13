@@ -136,14 +136,14 @@ void udpAccelTask(int newPacket, int send)
       //Any datagram received? Transfere du buffer aux DSP
       if(!error)
       {
-    	  newPacket = 1;
+    	  //newPacket = 1;
     	  context.buffer[length] = 0;
     	  //print(context.buffer);
-    	  //if(send==1){
-    		  //Send the data back to the source : RENVOI A LA PIC32
-    		error = socketSendTo(context.socket, &ipAddr, port,
-              		 context.buffer, length, NULL, 0);
-    	  //}
+
       }
    }
 }
+
+//Send the data back to the source : RENVOI A LA PIC32
+/*error = socketSendTo(context.socket, &ipAddr, port,
+		 context.buffer, length, NULL, 0);*/
