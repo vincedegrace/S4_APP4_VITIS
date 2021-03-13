@@ -19,5 +19,6 @@ void writeMyipReg(struct axes *acceleration, int count);
 void createPacket(u32 *moyenne, u32 *somme, u32 *valeur, int Index, int count);
 void sendPacket(unsigned char *moyenne, int count, char *Cbuffer);
 void affichage(int *tableau, int count);
+void affichageChar(unsigned char *tableau, int count);
 void affichageXYZ(struct axes *acceleration, int count);
 //int getAxe(int axe);

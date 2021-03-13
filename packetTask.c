@@ -130,6 +130,12 @@ void affichage(int *tableau, int count){
 	}
 }
 
+void affichageChar(unsigned char *tableau, int count){
+	for(int i=0; i<count; i++){
+		xil_printf("tableau[%d] = %X\n\r", i, tableau[i]);
+	}
+}
+
 void affichageXYZ(struct axes *acceleration, int count){
 	for(int i=0; i<count; i++){
 		xil_printf("accelX[%d] = %X\t\taccelY[%d] = %X\t\taccelZ[%d] = %X\n\r", i, acceleration->X[i], i, acceleration->Y[i], i, acceleration->Z[i]);

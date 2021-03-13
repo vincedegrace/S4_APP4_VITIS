@@ -109,7 +109,6 @@ int accelZ = 255;
 
 int etatM1 = 0;
 int etatM2 = 0;
-int etatM3 = 0;
 
 unsigned int ReceivedCount = 0;
 
@@ -292,6 +291,7 @@ void machine1(){
 	switch(etatM1){
 		case 0:
 		{
+			//print("etatM1 = 0\n\r");
 			if(newPacket==1){
 				etatM1 = 1;
 			    newPacket = 0;
@@ -301,26 +301,39 @@ void machine1(){
 		}
 		case 1:
 		{
-	    	charToInt(context.buffer, sizeof(context.buffer)/4, bufferEntiers);
+			print("etatM1 = 1\n\r");
+			charToInt(context.buffer, sizeof(context.buffer)/4, bufferEntiers);
 	    	accelXYZ(bufferEntiers, &acceleration, sizeof(bufferEntiers)/4);
 	    	startWriting = 1;
-			etatM1 = 2;
+	    	etatM1 = 2;
 			break;
 		}
 		case 2:
 		{
-			if(calculsFinis==1){
-				//sendPacket(bufferChar, sizeof(bufferChar), context.buffer);
-				packetReady = 1;
-				calculsFinis = 0;
-				etatM1=0;
-				break;
-			}
-			else
-			{
-				packetReady=0;
-				etatM1=2;
-			}
+			print("etatM1 = 2\n\r");
+	    	if(calculsFinis==1){
+	    		print("\t\tCalculs FINIS\n\r");
+	    		packetReady = 1;
+	    		calculsFinis = 0;
+	    		etatM1 = 3;
+	    	}
+	    	else
+	    	{
+	    		print("\t\tCalculs PAS FINIS\n\r");
+	    		packetReady=0;
+	    		etatM1=2;
+	    	}
+	    	break;
+		}
+		case 3:
+		{
+			print("etatM1 = 3\n\r");
+			print("\t\tEnvoie Packet\n\r");
+			sendPacket(bufferChar, sizeof(bufferChar), context.buffer);
+			//affichageChar(context.buffer, sizeof(bufferChar));
+			etatM1=0;
+			break;
+
 		}
 		default:
 			xil_printf("machine1:\tWallah ca va mal sa mere mon ami\n\r");
@@ -335,6 +348,7 @@ void machine2(void){
 		{
 			if(startWriting==1)
 			{
+				//print("etatM2 = 0\n\r");
 				etatM2=1;
 				startWriting = 0;
 			}
@@ -342,13 +356,15 @@ void machine2(void){
 		}
 		case 1:
 		{
-			//writeMyipReg(&acceleration, sizeof(bufferEntiers)/4);
+			print("etatM2 = 1\n\r");
+			writeMyipReg(&acceleration, sizeof(bufferEntiers)/4);
 			etatM2 = 2;
 			break;
 		}
 		case 2:
 		{
-			//intToChar(moyenne, sizeof(moyenne)/4, bufferChar);
+			print("etatM2 = 2\n\r");
+			intToChar(moyenne, sizeof(moyenne)/4, bufferChar);
 			calculsFinis = 1;
 			etatM2 = 0;
 			break;
@@ -375,14 +391,15 @@ int_t main(void)
    SetupInterruptSystem();
    systemInit();
    netTaskInit();
+   simTableauChar(context.buffer, sizeof(bufferEntiers));
 
    while(1){
 
 	   blinkTask();
 	   uartTask();
-	   simTableauChar(fakePacket, sizeof(bufferEntiers));
 	   machine1();
 	   machine2();
+	   //affichageChar(context.buffer, sizeof(bufferChar));
 
 
 	   //caller deballer paquet() et convertir en X ;
@@ -391,10 +408,10 @@ int_t main(void)
 	   if(ReceivedCount){	//Changer le triggered RecievedCount par RecievedPAQUET
 		   XUartLite_Send(&UartLite, /*RecvBuffer*/"" , ReceivedCount);
 		   newPacket = 1;
-		   //print("newPacket = 1");
+		   print("\t\tnewPacket = 1\n\r");
 
-		   /*simTableauChar(fakePacket, sizeof(bufferEntiers));
-		   charToInt(fakePacket, sizeof(bufferEntiers)/4, bufferEntiers);
+		   /*simTableauChar(context.buffer, sizeof(bufferEntiers));
+		   charToInt(context.buffer, sizeof(bufferEntiers)/4, bufferEntiers);
 		   accelXYZ(bufferEntiers, &acceleration, sizeof(bufferEntiers)/4);
 		   writeMyipReg(&acceleration, sizeof(bufferEntiers)/4);*/
 
