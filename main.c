@@ -381,8 +381,8 @@ int_t main(void)
 	   blinkTask();
 	   uartTask();
 	   simTableauChar(fakePacket, sizeof(bufferEntiers));
-	   //machine1();
-	   //machine2();
+	   machine1();
+	   machine2();
 
 
 	   //caller deballer paquet() et convertir en X ;
@@ -393,10 +393,10 @@ int_t main(void)
 		   newPacket = 1;
 		   //print("newPacket = 1");
 
-		   simTableauChar(fakePacket, sizeof(bufferEntiers));
+		   /*simTableauChar(fakePacket, sizeof(bufferEntiers));
 		   charToInt(fakePacket, sizeof(bufferEntiers)/4, bufferEntiers);
 		   accelXYZ(bufferEntiers, &acceleration, sizeof(bufferEntiers)/4);
-		   writeMyipReg(&acceleration, sizeof(bufferEntiers)/4);
+		   writeMyipReg(&acceleration, sizeof(bufferEntiers)/4);*/
 
 		   ReceivedCount = 0;
 	   }
